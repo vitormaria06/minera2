@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MINÊRA - Julia Tizumba</title>
+    
+    <!-- Google Fonts como fallback -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Reset e Base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Fontes customizadas - Brother Bold */
+        @font-face {
+            font-family: 'Brother';
+            src: url('data:font/truetype;charset=utf-8;base64,AAEAAAATAQAABAAwR1BPUzdkC9kAAXmwAAALFEdTVUKOPo45AAGExAAAAJJMVFNIF+fhNwAABMwAAACxT1MvMoSmuKwAAAG4AAAAYFZETVh1N3y4AAAFgAAABeBjbWFwjuKVVQAAGzgAAAXaY3Z0IAF4Bx0AACL8AAAAGmZwZ20GWZw3AAAhFAAAAXNnbHlm64eunQAAIxgAAUGMaGRteD0rgIUAAAtgAAAP2GhlYWQK0hIfAAABPAAAADZoaGVhBfUC7gAAAXQAAAAkaG10eBm/AUIAAAIYAAACtGtlcm42FTo6AAFmAAAADrJsb2NhLmB/NAABZKQAAAFcbWF4cALBA8gAAAGYAAAAIG5hbWWAbXf9AAF0tAAAA2xwb3N0UWhPmAABeCAAAAGNcHJlcK9MngoAACKIAAAAcg==') format('truetype');
+            font-weight: bold;
+            font-display: swap;
+        }
+
+        /* Fontes customizadas - Montra */
+        @font-face {
+            font-family: 'Montra';
+            src: url('data:font/opentype;charset=utf-8;base64,T1RUTwAKAIAAAwAwQ0ZGIDqOOTkAAAFcAAAA1EdERUYAKQAUAAACNAAAACBHUE9TAAEAAQAAAlQAAAAgR1NVQgABAAEAAAJ0AAAAIGhlYWQK0hIfAAAAvAAAADZoaGVhBfUC7gAAAPQAAAAkaG10eAm/AUIAAAEYAAAAQGxvY2EAKAAoAAABWAAAACJtYXhwABAAFQAAAXwAAAAgbmFtZQGOAjkAAAGcAAAA6nBvc3QAAwAAAAAChAAAACAAAwAAAAEAAAAKABgAGAABREZMVAAIAAQAAAAA//8AAgAAAAEAAAAAAAAAAQAAAADVhbAIAAAAANRMsn0AAAAA1FMbmw==') format('opentype');
+            font-weight: normal;
+            font-display: swap;
+        }
+
+        /* Cores customizadas */
+        :root {
+            --minera-red: #8B0000;
+            --minera-yellow: #FFD700;
+            --minera-gold: #B8860B;
+            --minera-black: #000000;
+        }
+
+        /* Utilitários */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .text-center { text-align: center; }
+        .hidden { display: none; }
+        .relative { position: relative; }
+        .absolute { position: absolute; }
+        .fixed { position: fixed; }
+
+        /* Animações */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 53%, 80%, 100% { transform: translateY(0); }
+            40%, 43% { transform: translateY(-10px); }
+            70% { transform: translateY(-5px); }
+            90% { transform: translateY(-2px); }
+        }
+
+        .animate-fadeInUp {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .animate-pulse {
+            animation: pulse 2s infinite;
+        }
+
+        .animate-bounce {
+            animation: bounce 2s infinite;
+        }
+
+        /* Header/Hero Section */
+        .hero-section {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--minera-red) 0%, #000 50%, var(--minera-red) 100%);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="%23FFD700" opacity="0.3"/><circle cx="80" cy="40" r="1.5" fill="%23FFD700" opacity="0.4"/><circle cx="40" cy="80" r="1" fill="%23FFD700" opacity="0.2"/></svg>');
+            background-size: 200px 200px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 10;
+            color: white;
+        }
+
+        .hero-title {
+            font-family: 'Brother', 'Montserrat', Arial, sans-serif;
+            font-size: 4rem;
+            font-weight: 900;
+            color: var(--minera-yellow);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+        }
+
+        .hero-subtitle {
+            font-family: 'Montra', 'Montserrat', Arial, sans-serif;
+            font-size: 2rem;
+            color: white;
+            margin-bottom: 2rem;
+            font-weight: 600;
+        }
+
+        /* Elementos decorativos flutuantes */
+        .floating-element {
+            position: absolute;
+            pointer-events: none;
+        }
+
+        .floating-girassol {
+            width: 40px;
+            height: 40px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="20" fill="%23FFD700"/><circle cx="50" cy="50" r="8" fill="%23B8860B"/></svg>');
+            background-size: contain;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .floating-buzios {
+            width: 30px;
+            height: 30px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><ellipse cx="50" cy="50" rx="15" ry="25" fill="%23F5F5DC"/><path d="M35 40 Q50 20 65 40" stroke="%23D2691E" stroke-width="2" fill="none"/></svg>');
+            background-size: contain;
+            animation: float 5s ease-in-out infinite;
+        }
+
+        /* Seção Sobre o Álbum */
+        .about-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #000 0%, var(--minera-red) 100%);
+            color: white;
+            position: relative;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .about-image {
+            position: relative;
+        }
+
+        .about-image img {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .about-text h2 {
+            font-family: 'Brother', 'Montserrat', Arial, sans-serif;
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--minera-yellow);
+            margin-bottom: 2rem;
+        }
+
+        .about-text p {
+            font-family: 'Montserrat', Arial, sans-serif;
+            font-size: 1.2rem;
+            font-weight: 400;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .spotify-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #1DB954;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-family: 'Montserrat', Arial, sans-serif;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .spotify-btn:hover {
+            background: #1ed760;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(29, 185, 84, 0.3);
+        }
+
+        /* Player de Música */
+        .music-player {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.9);
+            border-radius: 15px;
+            padding: 20px;
+            color: white;
+            z-index: 1000;
+            min-width: 300px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .music-player.hidden {
+            display: none;
+        }
+
+        .player-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .player-header h4 {
+            font-family: 'Brother', 'Montserrat', Arial, sans-serif;
+            font-weight: 900;
+        }
+
+        .close-player {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .track-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .track-item {
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            font-family: 'Montserrat', Arial, sans-serif;
+        }
+
+        .track-item:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .track-item.playing {
+            background: var(--minera-yellow);
+            color: black;
+        }
+
+        /* Agenda de Shows */
+        .agenda-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, var(--minera-yellow) 0%, var(--minera-gold) 100%);
+            position: relative;
+        }
+
+        .agenda-title {
+            font-family: 'Brother', 'Montserrat', Arial, sans-serif;
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--minera-red);
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .agenda-subtitle {
+            font-family: 'Montserrat', Arial, sans-serif;
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        .shows-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .show-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .show-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .show-date {
+            font-family: 'Brother', 'Montserrat', Arial, sans-serif;
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--minera-red);
+            margin-bottom: 10px;
+        }
+
+        .show-title {
+            font-family: 'Montra', 'Montserrat', Arial, sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .show-location {
+            font-family: 'Montserrat', Arial, sans-serif;
+            color: #666;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        /* Bastidores */
+        .bastidores-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #8B4513 0%, var(--minera-red) 100%);
+            color: white;
+            position: relative;
+        }
+
+        .bastidores-title {
+            font-family: 'Brother', 'Montserrat', Arial, sans-serif;
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--minera-yellow);
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .bastidores-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 3rem;
+        }
+
+        .bastidores-card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .bastidores-card h3 {
+            font-family: 'Montra', 'Montserrat', Arial, sans-serif;
+            font-weight: 600;
+        }
+
+        .bastidores-card p {
+            font-family: 'Montserrat', Arial, sans-serif;
+            font-weight: 400;
+        }
+
+        .bastidores-quote {
+            font-family: 'Montserrat', Arial, sans-serif;
+            font-style: italic;
+            font-size: 1.5rem;
+            font-weight: 500;
+            text-align: center;
+            margin-top: 3rem;
+            padding: 30px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 15px;
+            border-left: 5px solid var(--minera-yellow);
+        }
+
+        /* Galeria */
+        .galeria-section {
+            padding: 80px 0;
+            background: #000;
+            color: white;
+        }
+
+        .galeria-title {
+            font-family: 'Brother', 'Montserrat', Arial, sans-serif;
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--minera-yellow);
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .galeria-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .galeria-item {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .galeria-item:hover {
+            transform: scale(1.05);
+        }
+
+        .galeria-item img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .galeria-bio {
+            font-family: 'Montserrat', Arial, sans-serif;
+            font-weight: 400;
+            line-height: 1.8;
+            margin-top: 3rem;
+            text-align: center;
+        }
+
+        /* Conecte-se */
+        .conecte-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, var(--minera-red) 0%, #000 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .conecte-bg {
+            position: absolute;
+            inset: 0;
+            opacity: 0.1;
+        }
+
+        .conecte-title {
+            font-family: 'Brother', 'Montserrat', Arial, sans-serif;
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--minera-yellow);
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .conecte-subtitle {
+            font-family: 'Montserrat', Arial, sans-serif;
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        .social-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .social-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-family: 'Montserrat', Arial, sans-serif;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            color: white;
+        }
+
+        .social-btn.instagram {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        }
+
+        .social-btn.tiktok {
+            background: linear-gradient(45deg, #ff0050, #00f2ea);
+        }
+
+        .social-btn.spotify {
+            background: #1DB954;
+        }
+
+        .social-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        /* Destaques */
+        .destaques-section {
+            padding: 80px 0;
+            background: #000;
+            color: white;
+        }
+
+        .destaques-title {
+            font-family: 'Brother', 'Montserrat', Arial, sans-serif;
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--minera-yellow);
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .destaques-subtitle {
+            font-family: 'Montserrat', Arial, sans-serif;
+            font-weight: 500;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #ccc;
+        }
+
+        .destaques-grid {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .destaque-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .destaque-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .destaque-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            border: 4px solid;
+            padding: 10px;
+        }
+
+        .destaque-circle.yellow {
+            background: linear-gradient(135deg, var(--minera-yellow), var(--minera-gold));
+            border-color: var(--minera-yellow);
+        }
+
+        .destaque-circle.red {
+            background: linear-gradient(135deg, var(--minera-red), #660000);
+            border-color: var(--minera-red);
+        }
+
+        .destaque-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .destaque-title {
+            font-family: 'Montserrat', Arial, sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-align: center;
+            max-width: 80px;
+            line-height: 1.2;
+        }
+
+        /* Mensagem Final */
+        .mensagem-section {
+            padding: 40px 0;
+            background: linear-gradient(90deg, var(--minera-red) 0%, #660000 50%, var(--minera-red) 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mensagem-text {
+            font-family: 'Montserrat', Arial, sans-serif;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Footer */
+        .footer-section {
+            padding: 60px 0 40px;
+            background: #000;
+            color: white;
+            text-align: center;
+        }
+
+        .footer-title {
+            font-family: 'Brother', 'Montserrat', Arial, sans-serif;
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--minera-yellow);
+            margin-bottom: 1rem;
+        }
+
+        .footer-subtitle {
+            font-family: 'Brother', 'Montserrat', Arial, sans-serif;
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--minera-yellow);
+            margin-bottom: 2rem;
+        }
+
+        .footer-description {
+            font-family: 'Montserrat', Arial, sans-serif;
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 2rem;
+            color: #ccc;
+        }
+
+        .footer-copyright {
+            font-family: 'Montserrat', Arial, sans-serif;
+            padding-top: 30px;
+            border-top: 1px solid #333;
+            color: #666;
+            font-weight: 400;
+        }
+
+        /* Responsivo */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.5rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .about-text h2 {
+                font-size: 2rem;
+            }
+
+            .destaques-grid {
+                gap: 20px;
+            }
+
+            .destaque-circle {
+                width: 60px;
+                height: 60px;
+            }
+
+            .music-player {
+                bottom: 10px;
+                right: 10px;
+                left: 10px;
+                min-width: auto;
+            }
+
+            .agenda-title, .bastidores-title, .galeria-title, .conecte-title, .destaques-title, .footer-title {
+                font-size: 2rem;
+            }
+
+            .footer-subtitle {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Botão de música */
+        .music-toggle {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: var(--minera-yellow);
+            color: black;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 1001;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+            font-family: 'Montserrat', Arial, sans-serif;
+            font-weight: 700;
+        }
+
+        .music-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero-section" id="home">
+        <div class="hero-bg"></div>
+        
+        <!-- Elementos decorativos flutuantes -->
+        <div class="floating-element floating-girassol" style="top: 10%; left: 10%; animation-delay: 0s;"></div>
+        <div class="floating-element floating-buzios" style="top: 20%; right: 15%; animation-delay: 1s;"></div>
+        <div class="floating-element floating-girassol" style="bottom: 15%; left: 20%; animation-delay: 2s;"></div>
+        <div class="floating-element floating-buzios" style="bottom: 25%; right: 10%; animation-delay: 1.5s;"></div>
+        
+        <div class="hero-content animate-fadeInUp">
+            <h1 class="hero-title">MINÊRA</h1>
+            <p class="hero-subtitle">Júlia Tizumba</p>
+        </div>
+    </section>
+
+    <!-- Sobre o Álbum -->
+    <section class="about-section" id="sobre">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-image">
+                    <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='500' viewBox='0 0 400 500'><rect width='400' height='500' fill='%23333'/><text x='50%' y='50%' text-anchor='middle' dy='.3em' fill='white' font-size='20' font-family='Montserrat'>Foto da Júlia</text></svg>" alt="Júlia Tizumba">
+                    
+                    <!-- Elementos decorativos -->
+                    <div class="floating-element floating-girassol" style="top: -10px; right: -10px; width: 30px; height: 30px;"></div>
+                    <div class="floating-element floating-buzios" style="bottom: -10px; left: -10px; width: 25px; height: 25px;"></div>
+                </div>
+                
+                <div class="about-text">
+                    <h2>Sobre o Álbum</h2>
+                    <p>MINÊRA representa um marco na carreira de Julia Tizumba, celebrando 20 anos de trajetória artística e suas raízes afro-mineiras. Gravado com a Banda Gloriosa sob direção de Acauã Ranne, o álbum conta com participações especiais das matriarcas Tisa Rosa Jane, fortalecendo a dimensão familiar e ancestral do projeto.</p>
+                    
+                    <a href="https://open.spotify.com/album/..." class="spotify-btn" target="_blank">
+                        🎵 Ouvir no Spotify
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Agenda de Shows -->
+    <section class="agenda-section" id="agenda">
+        <div class="container">
+            <h2 class="agenda-title">AGENDA DE SHOWS</h2>
+            <p class="text-center agenda-subtitle" style="margin-bottom: 3rem;">Acompanhe as próximas apresentações de Júlia Tizumba</p>
+            
+            <div class="shows-grid">
+                <div class="show-card animate-fadeInUp">
+                    <div class="show-date">02/06</div>
+                    <h3 class="show-title">Vozes Femininas</h3>
+                    <p class="show-location">Contagem (MG)</p>
+                    <p>Celebração da força feminina na música</p>
+                </div>
+                
+                <div class="show-card animate-fadeInUp" style="animation-delay: 0.2s;">
+                    <div class="show-date">07/06</div>
+                    <h3 class="show-title">Açaí Guardiã</h3>
+                    <p class="show-location">Casa Bantu (BH)</p>
+                    <p>Apresentação especial do repertório MINÊRA</p>
+                </div>
+                
+                <div class="show-card animate-fadeInUp" style="animation-delay: 0.4s;">
+                    <div class="show-date">27/06 - 20/07</div>
+                    <h3 class="show-title">Musical Elza</h3>
+                    <p class="show-location">Rio de Janeiro</p>
+                    <p>Homenagem à Rainha da Música Popular Brasileira</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Elementos decorativos flutuantes -->
+        <div class="floating-element floating-girassol animate-float" style="top: 20%; left: 5%; width: 35px; height: 35px; animation-delay: 0s;"></div>
+        <div class="floating-element floating-buzios animate-float" style="bottom: 30%; right: 8%; width: 40px; height: 40px; animation-delay: 1s;"></div>
+        <div class="floating-element floating-girassol animate-float" style="top: 60%; left: 50%; width: 20px; height: 20px; animation-delay: 2s;"></div>
+    </section>
+
+    <!-- Bastidores -->
+    <section class="bastidores-section" id="bastidores">
+        <div class="container">
+            <h2 class="bastidores-title">BASTIDORES DA GRAVAÇÃO</h2>
+            <p class="text-center" style="margin-bottom: 3rem; font-size: 1.2rem;">Momentos especiais da criação do álbum MINÊRA no Estúdio Engenho</p>
+            
+            <div class="bastidores-content">
+                <div class="bastidores-card">
+                    <h3 style="color: var(--minera-yellow); margin-bottom: 15px;">👑 Direção</h3>
+                    <p>Acauã Ranne</p>
+                </div>
+                
+                <div class="bastidores-card">
+                    <h3 style="color: var(--minera-yellow); margin-bottom: 15px;">🎵 Banda Gloriosa</h3>
+                    <p>Formação musical completa</p>
+                </div>
+                
+                <div class="bastidores-card">
+                    <h3 style="color: var(--minera-yellow); margin-bottom: 15px;">❤️ Participações especiais</h3>
+                    <p>Matriarcas Tisa Rosa Jane</p>
+                </div>
+            </div>
+            
+            <div class="bastidores-quote">
+                <p>"MINÊRA representa um marco na minha carreira, celebrando 20 anos de trajetória artística e minhas raízes afro-mineiras"</p>
+                <p style="margin-top: 20px; color: var(--minera-yellow); font-weight: bold;">— Júlia Tizumba</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Galeria -->
+    <section class="galeria-section" id="galeria">
+        <div class="container">
+            <h2 class="galeria-title">JULIA TIZUMBA</h2>
+            
+            <div class="galeria-grid">
+                <div class="galeria-item">
+                    <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'><rect width='400' height='300' fill='%23444'/><text x='50%' y='50%' text-anchor='middle' dy='.3em' fill='white' font-size='16' font-family='Montserrat'>Foto 1</text></svg>" alt="Júlia Tizumba">
+                </div>
+                <div class="galeria-item">
+                    <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'><rect width='400' height='300' fill='%23555'/><text x='50%' y='50%' text-anchor='middle' dy='.3em' fill='white' font-size='16' font-family='Montserrat'>Foto 2</text></svg>" alt="Júlia Tizumba">
+                </div>
+                <div class="galeria-item">
+                    <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'><rect width='400' height='300' fill='%23666'/><text x='50%' y='50%' text-anchor='middle' dy='.3em' fill='white' font-size='16' font-family='Montserrat'>Foto 3</text></svg>" alt="Júlia Tizumba">
+                </div>
+            </div>
+            
+            <div class="galeria-bio">
+                <p>Júlia Tizumba é nascida em Belo Horizonte, formada no Teatro Universitário e Doutora em Artes Cênicas pela Universidade Federal de Minas Gerais. Também formada em Jornalismo pela PUC Minas, é cantora, percussionista e professora. É atriz da Companhia Burlantins, co-fundadora do Coletivo Negras Autoras, no qual atua como compositora, instrumentista e curadora. Também é regente e ministra aulas de percussão na Associação Cultural Tambor Mineiro.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Conecte-se -->
+    <section class="conecte-section" id="conecte">
+        <div class="conecte-bg">
+            <!-- Padrão de girassóis e búzios -->
+            <div class="floating-element floating-girassol" style="top: 10%; left: 10%; width: 60px; height: 60px; opacity: 0.3;"></div>
+            <div class="floating-element floating-buzios" style="top: 20%; right: 15%; width: 50px; height: 50px; opacity: 0.3;"></div>
+            <div class="floating-element floating-girassol" style="bottom: 30%; left: 20%; width: 70px; height: 70px; opacity: 0.3;"></div>
+            <div class="floating-element floating-buzios" style="bottom: 15%; right: 25%; width: 45px; height: 45px; opacity: 0.3;"></div>
+            <div class="floating-element floating-girassol" style="top: 50%; left: 70%; width: 55px; height: 55px; opacity: 0.3;"></div>
+            <div class="floating-element floating-buzios" style="top: 70%; left: 5%; width: 40px; height: 40px; opacity: 0.3;"></div>
+        </div>
+        
+        <div class="container" style="position: relative; z-index: 10;">
+            <h2 class="conecte-title">CONECTE-SE</h2>
+            <p class="text-center conecte-subtitle" style="margin-bottom: 3rem;">Acompanhe Julia Tizumba nas redes sociais e não perca nenhuma novidade</p>
+            
+            <div class="social-buttons">
+                <a href="#" class="social-btn instagram">
+                    📷 Instagram
+                </a>
+                <a href="#" class="social-btn tiktok">
+                    🎵 TikTok
+                </a>
+                <a href="#" class="social-btn spotify">
+                    🎧 Spotify
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Destaques -->
+    <section class="destaques-section" id="destaques">
+        <div class="container">
+            <h2 class="destaques-title">DESTAQUES</h2>
+            <p class="destaques-subtitle">Conheça mais sobre a trajetória de Júlia Tizumba</p>
+            
+            <div class="destaques-grid">
+                <div class="destaque-item">
+                    <div class="destaque-circle yellow">
+                        <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='25' fill='%23FFD700'/><circle cx='50' cy='50' r='10' fill='%23B8860B'/></svg>" alt="Girassol">
+                    </div>
+                    <p class="destaque-title">Minêra</p>
+                </div>
+                
+                <div class="destaque-item">
+                    <div class="destaque-circle red">
+                        <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><ellipse cx='50' cy='50' rx='20' ry='30' fill='%23F5F5DC'/><path d='M30 40 Q50 20 70 40' stroke='%23D2691E' stroke-width='3' fill='none'/></svg>" alt="Búzios">
+                    </div>
+                    <p class="destaque-title">Negras Autoras</p>
+                </div>
+                
+                <div class="destaque-item">
+                    <div class="destaque-circle yellow">
+                        <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='25' y='30' width='50' height='40' rx='5' fill='%238B4513'/><rect x='30' y='35' width='40' height='30' fill='%23F5F5DC'/></svg>" alt="Livro">
+                    </div>
+                    <p class="destaque-title">Livro</p>
+                </div>
+                
+                <div class="destaque-item">
+                    <div class="destaque-circle yellow">
+                        <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='25' fill='%23FFD700'/><circle cx='50' cy='50' r='10' fill='%23B8860B'/></svg>" alt="Girassol">
+                    </div>
+                    <p class="destaque-title">Mãe na Pandemia</p>
+                </div>
+                
+                <div class="destaque-item">
+                    <div class="destaque-circle red">
+                        <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><ellipse cx='50' cy='50' rx='20' ry='30' fill='%23F5F5DC'/><path d='M30 40 Q50 20 70 40' stroke='%23D2691E' stroke-width='3' fill='none'/></svg>" alt="Búzios">
+                    </div>
+                    <p class="destaque-title">Teatro</p>
+                </div>
+                
+                <div class="destaque-item">
+                    <div class="destaque-circle yellow">
+                        <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><ellipse cx='50' cy='70' rx='30' ry='20' fill='%238B4513'/><rect x='45' y='30' width='10' height='40' fill='%23654321'/><circle cx='50' cy='25' r='8' fill='%23F5F5DC'/></svg>" alt="Tambor">
+                    </div>
+                    <p class="destaque-title">Tambor Mineiro</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mensagem Final -->
+    <section class="mensagem-section">
+        <div class="container">
+            <p class="mensagem-text">
+                No segundo semestre, o álbum tá nas plataformas digitais, tem show de lançamento e de celebração dos meus 20 anos de caminhada nas artes e eu espero todos vocês! ❤️
+            </p>
+        </div>
+        
+        <!-- Elementos decorativos animados -->
+        <div class="floating-element floating-girassol animate-pulse" style="top: 10px; left: 10%; width: 20px; height: 20px;"></div>
+        <div class="floating-element floating-buzios animate-bounce" style="bottom: 15px; right: 20%; width: 15px; height: 15px;"></div>
+        <div class="floating-element floating-girassol animate-pulse" style="top: 20px; right: 40%; width: 12px; height: 12px;"></div>
+        <div class="floating-element floating-buzios animate-pulse" style="bottom: 10px; left: 30%; width: 15px; height: 15px;"></div>
+    </section>
+
+    <!-- Footer -->
+    <section class="footer-section">
+        <div class="container">
+            <h2 class="footer-title">MINÊRA</h2>
+            <h3 class="footer-subtitle">JÚLIA TIZUMBA</h3>
+            <p class="footer-description">
+                Um tributo às raízes afro-mineiras, celebrando 20 anos de trajetória artística
+            </p>
+        </div>
+    </section>
+
+    <!-- Copyright Final -->
+    <section style="background: #000; color: #666; text-align: center; padding: 30px 0; border-top: 1px solid #333;">
+        <div class="container">
+            <p style="font-family: 'Montserrat', Arial, sans-serif;">© 2025 Júlia Tizumba. Todos os direitos reservados.</p>
+            <p style="margin-top: 10px; font-family: 'Montserrat', Arial, sans-serif;">Celebrando 20 anos de arte, ancestralidade e resistência</p>
+        </div>
+    </section>
+
+    <!-- Botão de Música -->
+    <button class="music-toggle" onclick="toggleMusicPlayer()">🎵</button>
+
+    <!-- Player de Música -->
+    <div class="music-player hidden" id="musicPlayer">
+        <div class="player-header">
+            <h4>🎵 Faixas do Álbum MINÊRA</h4>
+            <button class="close-player" onclick="closeMusicPlayer()">✕</button>
+        </div>
+        
+        <div class="track-list">
+            <div class="track-item" onclick="playTrack(1)">
+                <strong>1. Abertura MINÊRA</strong>
+                <div style="font-size: 0.9rem; color: #ccc;">Júlia Tizumba</div>
+            </div>
+            <div class="track-item" onclick="playTrack(2)">
+                <strong>2. Raízes Ancestrais</strong>
+                <div style="font-size: 0.9rem; color: #ccc;">Júlia Tizumba</div>
+            </div>
+            <div class="track-item" onclick="playTrack(3)">
+                <strong>3. Tambor Mineiro</strong>
+                <div style="font-size: 0.9rem; color: #ccc;">Júlia Tizumba & Banda Gloriosa</div>
+            </div>
+            <div class="track-item" onclick="playTrack(4)">
+                <strong>4. Negras Autoras</strong>
+                <div style="font-size: 0.9rem; color: #ccc;">Coletivo Negras Autoras</div>
+            </div>
+            <div class="track-item" onclick="playTrack(5)">
+                <strong>5. Mãe na Pandemia</strong>
+                <div style="font-size: 0.9rem; color: #ccc;">Júlia Tizumba</div>
+            </div>
+            <div class="track-item" onclick="playTrack(6)">
+                <strong>6. Teatro da Vida</strong>
+                <div style="font-size: 0.9rem; color: #ccc;">Júlia Tizumba</div>
+            </div>
+            <div class="track-item" onclick="playTrack(7)">
+                <strong>7. Girassóis de Minas</strong>
+                <div style="font-size: 0.9rem; color: #ccc;">Júlia Tizumba</div>
+            </div>
+            <div class="track-item" onclick="playTrack(8)">
+                <strong>8. Búzios do Tempo</strong>
+                <div style="font-size: 0.9rem; color: #ccc;">Júlia Tizumba & Tisa Rosa Jane</div>
+            </div>
+            <div class="track-item" onclick="playTrack(9)">
+                <strong>9. Resistência</strong>
+                <div style="font-size: 0.9rem; color: #ccc;">Júlia Tizumba</div>
+            </div>
+            <div class="track-item" onclick="playTrack(10)">
+                <strong>10. MINÊRA (Final)</strong>
+                <div style="font-size: 0.9rem; color: #ccc;">Júlia Tizumba & Banda Gloriosa</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Variáveis globais
+        let currentTrack = null;
+        let musicPlayerVisible = false;
+
+        // Função para toggle do player de música
+        function toggleMusicPlayer() {
+            const player = document.getElementById('musicPlayer');
+            musicPlayerVisible = !musicPlayerVisible;
+            
+            if (musicPlayerVisible) {
+                player.classList.remove('hidden');
+            } else {
+                player.classList.add('hidden');
+            }
+        }
+
+        // Função para fechar o player
+        function closeMusicPlayer() {
+            const player = document.getElementById('musicPlayer');
+            player.classList.add('hidden');
+            musicPlayerVisible = false;
+        }
+
+        // Função para "tocar" uma faixa (simulação)
+        function playTrack(trackNumber) {
+            // Remove classe playing de todas as faixas
+            const tracks = document.querySelectorAll('.track-item');
+            tracks.forEach(track => track.classList.remove('playing'));
+            
+            // Adiciona classe playing na faixa selecionada
+            tracks[trackNumber - 1].classList.add('playing');
+            currentTrack = trackNumber;
+            
+            // Simula reprodução (em uma implementação real, você tocaria o áudio aqui)
+            console.log(`Tocando faixa ${trackNumber}`);
+        }
+
+        // Animações de scroll
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.animate-fadeInUp');
+            
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.style.animation = 'fadeInUp 0.8s ease-out forwards';
+                }
+            });
+        }
+
+        // Smooth scroll para links internos
+        function smoothScroll() {
+            const links = document.querySelectorAll('a[href^="#"]');
+            
+            links.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    const targetSection = document.querySelector(targetId);
+                    
+                    if (targetSection) {
+                        targetSection.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        }
+
+        // Efeito parallax simples
+        function parallaxEffect() {
+            const scrolled = window.pageYOffset;
+            const parallaxElements = document.querySelectorAll('.hero-bg');
+            
+            parallaxElements.forEach(element => {
+                const speed = 0.5;
+                element.style.transform = `translateY(${scrolled * speed}px)`;
+            });
+        }
+
+        // Event listeners
+        window.addEventListener('scroll', () => {
+            animateOnScroll();
+            parallaxEffect();
+        });
+
+        window.addEventListener('load', () => {
+            smoothScroll();
+            animateOnScroll();
+        });
+
+        // Adicionar interatividade aos elementos hover
+        document.addEventListener('DOMContentLoaded', function() {
+            // Efeito hover nos cards
+            const cards = document.querySelectorAll('.show-card, .bastidores-card, .galeria-item');
+            
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+
+            // Efeito nos botões sociais
+            const socialBtns = document.querySelectorAll('.social-btn');
+            
+            socialBtns.forEach(btn => {
+                btn.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-3px) scale(1.05)';
+                });
+                
+                btn.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+
+            // Animação inicial dos elementos flutuantes
+            const floatingElements = document.querySelectorAll('.floating-element');
+            floatingElements.forEach((element, index) => {
+                element.style.animationDelay = `${index * 0.5}s`;
+            });
+        });
+
+        // Função para criar mais elementos decorativos dinamicamente
+        function createFloatingElements() {
+            const sections = document.querySelectorAll('section');
+            
+            sections.forEach((section, sectionIndex) => {
+                if (sectionIndex % 2 === 0) { // Adiciona elementos apenas em seções pares
+                    const girassol = document.createElement('div');
+                    girassol.className = 'floating-element floating-girassol animate-float';
+                    girassol.style.top = Math.random() * 80 + '%';
+                    girassol.style.left = Math.random() * 90 + '%';
+                    girassol.style.width = (Math.random() * 20 + 20) + 'px';
+                    girassol.style.height = girassol.style.width;
+                    girassol.style.opacity = '0.2';
+                    girassol.style.animationDelay = Math.random() * 3 + 's';
+                    
+                    section.appendChild(girassol);
+                }
+            });
+        }
+
+        // Inicializar elementos decorativos extras
+        setTimeout(createFloatingElements, 1000);
+    </script>
+</body>
+</html>
+
